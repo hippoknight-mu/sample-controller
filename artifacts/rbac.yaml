@@ -5,24 +5,24 @@ metadata:
   name: process-dumper
 rules:
 - apiGroups: [""]
-  resources: ["pod"]
+  resources: ["pods"]
   verbs: ["get", "watch", "list"]
 - apiGroups: [""]
   resources: ["pods/exec"]
   verbs: ["create"]
 
 ---
-
 # namespaced rolebinding
 # we need to create a rolebinding dynamically when a cr is created ?
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: dump-rolebinding
   namespace: default
 subjects:
 - kind: ServiceAccount
   name: default
+  namespace: default
 roleRef:
   kind: ClusterRole #this must be Role or ClusterRole
   name: process-dumper
